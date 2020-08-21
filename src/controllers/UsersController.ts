@@ -42,7 +42,7 @@ export class UsersController {
   };
 
   /**
-   * Edit use
+   * Edits a use
    *
    * @param {Request} req
    * @param {Response} res
@@ -63,5 +63,26 @@ export class UsersController {
     if (error) return next(error);
 
     return ok(res, { message: 'Updated!!', user });
+  };
+
+  /**
+   * Delets a use
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {Function} next
+   *
+   * @memberOf UsersController
+   */
+  public delete = async (
+    req: Request,
+    res: Response,
+    next: (error: any) => {}
+  ) => {
+    const [result, error] = await this.userRepo.delete(parseInt(req.params.id));
+
+    if (error) return next(error);
+
+    return ok(res, { message: result.message });
   };
 }

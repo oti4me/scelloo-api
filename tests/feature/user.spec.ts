@@ -123,6 +123,35 @@ describe('Users Controller Tests', () => {
       });
     });
   });
+
+  describe('Delete User DELETE: /api/v1/users/:id', () => {
+    describe('Delete User', () => {
+      it('should successfully delete a user', (done) => {
+        request
+          .delete('/api/v1/users/1')
+          .expect(200)
+          .end(async (err, res) => {
+            const { status, payload } = res.body;
+            if (err) return done(err);
+            expect(status).to.equal(`Success`);
+            expect(payload.message).to.equal(`User deleted!`);
+            done();
+          });
+      });
+
+      it('should return 404 if user not found', (done) => {
+        request
+          .delete('/api/v1/users/198')
+          .expect(404)
+          .end(async (err, res) => {
+            const { message } = res.body;
+            if (err) return done(err);
+            expect(message).to.equal(`User not found`);
+            done();
+          });
+      });
+    });
+  });
 });
 
 describe('Error Tests', () => {

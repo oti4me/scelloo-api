@@ -58,4 +58,19 @@ export class UserRepository {
       return [null, error];
     }
   }
+
+  public async delete(id: number) {
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return [null, new NotFound(`User not found`)];
+    }
+
+    try {
+      await user.destroy();
+      return [{ message: 'User deleted!' }, null];
+    } catch (error) {
+      return [null, error];
+    }
+  }
 }
