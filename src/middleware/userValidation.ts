@@ -27,6 +27,22 @@ export const userValidation = {
     return next();
   },
 
+  /**
+   * Checks for validation result, returns next of successful
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {() => {}} next
+   * @returns
+   */
+  updateValidationResult: (req: Request, res: Response, next) => {
+    const result = validationResult(req);
+
+    if (!result.isEmpty()) return next(new ValidationError(result.array()));
+
+    return next();
+  },
+
   createValidator: [
     check('fname')
       .optional(false)
@@ -37,6 +53,22 @@ export const userValidation = {
       .isLength({ min: 3, max: 25 })
       .withMessage('Last nane must be 3-25 chars long'),
     check('email').isEmail().withMessage('Invalid email'),
+    check('phone')
+      .optional(true)
+      .isMobilePhone('en-NG')
+      .withMessage('Invalid mobile number'),
+  ],
+
+  updateValidator: [
+    check('fname')
+      .optional(true)
+      .isLength({ min: 3, max: 25 })
+      .withMessage('First nane must be 3-25 chars long'),
+    check('lname')
+      .optional(true)
+      .isLength({ min: 3, max: 25 })
+      .withMessage('Last nane must be 3-25 chars long'),
+    check('email').optional(true).isEmail().withMessage('Invalid email'),
     check('phone')
       .optional(true)
       .isMobilePhone('en-NG')

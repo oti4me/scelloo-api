@@ -1,3 +1,7 @@
+[![meetup](https://circleci.com/gh/oti4me/scelloo-api.svg?style=shield)](https://app.circleci.com/pipelines/github/oti4me/scelloo-api)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d0ee0df5f69357e03b70/maintainability)](https://codeclimate.com/github/oti4me/scelloo-api/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d0ee0df5f69357e03b70/test_coverage)](https://codeclimate.com/github/oti4me/scelloo-api/test_coverage)
+
 # User Management
 
 ## Introduction

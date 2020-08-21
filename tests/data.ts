@@ -21,3 +21,8 @@ export const invalidEmail = {
   email: 'fanternet.com',
   phone: '07000000000',
 };
+
+export const userUpdate = {
+  fname: 'newName',
+  email: 'newEmail@mail.com',
+};
