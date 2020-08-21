@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    ports:
+      - '3001:3001'
+    environment:
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=secret
+      - DB_NAME=scelloo
+      - DB_HOST=db
+    depends_on:
+      - db
+    volumes:
+      - ./:/usr/src/app
+
+  db:
+    image: postgres:10.6
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=scelloo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - ./postgres/db:/var/lib/pgsql/data
