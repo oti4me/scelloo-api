@@ -41,6 +41,13 @@
 - Run the app
   - `npm run dev`
   - Running the command above will run the app at `http://localhost://3001` or the port provided in .env file.
+- Run app from docker image
+
+  - Run `docker pull oti4/scelloo`
+  - Add docker-compose.yml file with the content [docker-compose.yml:](https://github.com/oti4me/scelloo-api/pull/7)
+
+- Run `docker-compose up`
+- Running the command above will run the app at `http://localhost://3001` or the port provided in docker-compose.yml file.
 
 ## Dependencies
 
