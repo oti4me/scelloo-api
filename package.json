@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "",
+    "start": "node ./dist/src/server.js",
     "build": "tsc",
     "dev": "nodemon ./src/server.ts",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=lcov --reporter=text mocha --require ts-node/register ./tests/**/* --exit",
