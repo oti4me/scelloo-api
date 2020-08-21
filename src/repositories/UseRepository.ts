@@ -59,6 +59,14 @@ export class UserRepository {
     }
   }
 
+  /**
+   * Deletes a user record from the database
+   *
+   * @param {number} id
+   * @returns
+   *
+   * @memberOf UserRepository
+   */
   public async delete(id: number) {
     const user = await User.findByPk(id);
 
@@ -69,6 +77,28 @@ export class UserRepository {
     try {
       await user.destroy();
       return [{ message: 'User deleted!' }, null];
+    } catch (error) {
+      return [null, error];
+    }
+  }
+
+  /**
+   * Gets a single user record from the database
+   *
+   * @param {number} id
+   * @returns
+   *
+   * @memberOf UserRepository
+   */
+  public async one(id: number) {
+    try {
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        return [null, new NotFound(`User not found`)];
+      }
+
+      return [user, null];
     } catch (error) {
       return [null, error];
     }

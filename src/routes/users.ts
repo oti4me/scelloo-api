@@ -27,4 +27,6 @@ usersRoutes.put(
 
 usersRoutes.delete('/:id', usersController.delete);
 
+usersRoutes.get('/:id', usersController.one);
+
 export default usersRoutes;

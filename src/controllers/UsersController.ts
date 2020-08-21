@@ -85,4 +85,25 @@ export class UsersController {
 
     return ok(res, { message: result.message });
   };
+
+  /**
+   * Gets a use
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {Function} next
+   *
+   * @memberOf UsersController
+   */
+  public one = async (
+    req: Request,
+    res: Response,
+    next: (error: any) => {}
+  ) => {
+    const [user, error] = await this.userRepo.one(parseInt(req.params.id));
+
+    if (error) return next(error);
+
+    return ok(res, user);
+  };
 }
