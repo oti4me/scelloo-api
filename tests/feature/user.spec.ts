@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import supertest from 'supertest';
 import { app } from '../../src/server';
 import { validUser, invalidEmail, userUpdate } from '../data';
-import db from '../../src/database';
 
 const request = supertest(app);
 
@@ -118,6 +117,35 @@ describe('Users Controller Tests', () => {
             if (err) return done(err);
             expect(message).to.equal(`Request validation failed`);
             expect(body[0].msg).to.equal(`First nane must be 3-25 chars long`);
+            done();
+          });
+      });
+    });
+  });
+
+  describe('Get a User GET: /api/v1/users/:id', () => {
+    describe('Get a user', () => {
+      it("should successfully get a user's record", (done) => {
+        request
+          .get('/api/v1/users/1')
+          .expect(200)
+          .end(async (err, res) => {
+            const { status, payload } = res.body;
+            if (err) return done(err);
+            expect(status).to.equal(`Success`);
+            expect(payload.id).to.equal(1);
+            done();
+          });
+      });
+
+      it('should return 404 if user not found', (done) => {
+        request
+          .get('/api/v1/users/698')
+          .expect(404)
+          .end(async (err, res) => {
+            const { message } = res.body;
+            if (err) return done(err);
+            expect(message).to.equal(`User not found`);
             done();
           });
       });
