@@ -8,7 +8,7 @@ import { sync } from './database';
 
 config();
 
-const app: Application = express();
+export const app: Application = express();
 const port: number = parseInt(process.env.PORT, 10) || 3001;
 
 app.disable('x-powered-by');
