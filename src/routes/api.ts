@@ -1,12 +1,8 @@
 import { Router } from 'express';
+import users from './users';
 
 const apiRotuer = Router();
 
-apiRotuer.get('/', (req, res) => {
-  res.status(200).json({
-    message:
-      'Welcome to the API, Please consult the API documentation for more info',
-  });
-});
+apiRotuer.use('/users', users);
 
 export default apiRotuer;
