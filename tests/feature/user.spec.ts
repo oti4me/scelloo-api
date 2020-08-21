@@ -3,7 +3,8 @@ import supertest from 'supertest';
 import { app } from '../../src/server';
 import { validUser, invalidEmail, userUpdate } from '../data';
 
-const request = supertest(app);
+// const request = supertest(app);
+const request = supertest.agent(app.listen());
 
 describe('Users Controller Tests', () => {
   describe('Create User POST: /api/v1/users', () => {
@@ -117,6 +118,23 @@ describe('Users Controller Tests', () => {
             if (err) return done(err);
             expect(message).to.equal(`Request validation failed`);
             expect(body[0].msg).to.equal(`First nane must be 3-25 chars long`);
+            done();
+          });
+      });
+    });
+  });
+
+  describe('Get a User GET: /api/v1/users/', () => {
+    describe('Get all user', () => {
+      it('should successfully get all users record', (done) => {
+        request
+          .get('/api/v1/users')
+          .expect(200)
+          .end(async (err, res) => {
+            const { status, payload } = res.body;
+            if (err) return done(err);
+            expect(status).to.equal(`Success`);
+            expect(payload[0].id).to.equal(1);
             done();
           });
       });

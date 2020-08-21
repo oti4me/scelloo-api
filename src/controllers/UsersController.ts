@@ -106,4 +106,25 @@ export class UsersController {
 
     return ok(res, user);
   };
+
+  /**
+   * Gets all uses
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {Function} next
+   *
+   * @memberOf UsersController
+   */
+  public all = async (
+    req: Request,
+    res: Response,
+    next: (error: any) => {}
+  ) => {
+    const [users, error] = await this.userRepo.all();
+
+    if (error) return next(error);
+
+    return ok(res, users);
+  };
 }

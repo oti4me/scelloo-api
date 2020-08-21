@@ -103,4 +103,21 @@ export class UserRepository {
       return [null, error];
     }
   }
+
+  /**
+   * Get all users from the database
+   *
+   * @returns
+   *
+   * @memberOf UserRepository
+   */
+  public async all() {
+    try {
+      const users = await User.findAll();
+
+      return [users, null];
+    } catch (error) {
+      return [null, error];
+    }
+  }
 }
