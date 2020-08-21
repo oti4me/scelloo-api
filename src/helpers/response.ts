@@ -20,17 +20,17 @@ export const created = (res: Response, payload: { [key: string]: any }) => {
  * @param {any} res
  * @param {any} body
  */
-// export const ok = (
-//   res: Response,
-//   body: { [key: string]: any },
-//   status: boolean = true
-// ) => {
-//   const payload = status
-//     ? {
-//         status: 'Success',
-//         body,
-//       }
-//     : body;
+export const ok = (
+  res: Response,
+  payload: { [key: string]: any },
+  status: boolean = true
+) => {
+  const body = status
+    ? {
+        status: 'Success',
+        payload,
+      }
+    : payload;
 
-//   res.status(OK).json(payload);
-// };
+  res.status(OK).json(body);
+};

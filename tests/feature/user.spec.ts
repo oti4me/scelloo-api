@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import supertest from 'supertest';
 import { app } from '../../src/server';
-import { validUser, invalidEmail } from '../data';
+import { validUser, invalidEmail, userUpdate } from '../data';
 import db from '../../src/database';
 
 const request = supertest(app);
@@ -9,7 +9,6 @@ const request = supertest(app);
 describe('Users Controller Tests', () => {
   describe('Create User POST: /api/v1/users', () => {
     it('should successfully create a new user', (done) => {
-      expect(true).to.equal(true);
       request
         .post('/api/v1/users')
         .send(validUser)
@@ -25,7 +24,6 @@ describe('Users Controller Tests', () => {
   });
   describe('Create User Validation POST: /api/v1/users', () => {
     it('should return 409 if user with email already exists', (done) => {
-      expect(true).to.equal(true);
       request
         .post('/api/v1/users')
         .send(validUser)
@@ -40,7 +38,6 @@ describe('Users Controller Tests', () => {
         });
     });
     it('should return 422 if user email is invalid', (done) => {
-      expect(true).to.equal(true);
       request
         .post('/api/v1/users')
         .send(invalidEmail)
@@ -54,7 +51,6 @@ describe('Users Controller Tests', () => {
         });
     });
     it('should return 422 if user first name is less than 3 or more than 25 chars', (done) => {
-      expect(true).to.equal(true);
       request
         .post('/api/v1/users')
         .send({ ...validUser, fname: 'ot' })
@@ -68,7 +64,6 @@ describe('Users Controller Tests', () => {
         });
     });
     it('should return 422 if user last name is less than 3 or more than 25 chars', (done) => {
-      expect(true).to.equal(true);
       request
         .post('/api/v1/users')
         .send({ ...validUser, lname: 'og' })
@@ -80,6 +75,52 @@ describe('Users Controller Tests', () => {
           expect(body[0].msg).to.equal(`Last nane must be 3-25 chars long`);
           done();
         });
+    });
+  });
+
+  describe('Edit User PUT: /api/v1/users/:', () => {
+    describe('Update User', () => {
+      it('should successfully update a user', (done) => {
+        request
+          .put('/api/v1/users/1')
+          .send(userUpdate)
+          .expect(200)
+          .end(async (err, res) => {
+            const { status, payload } = res.body;
+            if (err) return done(err);
+            expect(status).to.equal(`Success`);
+            expect(payload.user.fname).to.equal(userUpdate.fname);
+            expect(payload.user.email).to.equal(userUpdate.email);
+            done();
+          });
+      });
+
+      it('should return 404 if user not found', (done) => {
+        request
+          .put('/api/v1/users/198')
+          .send(userUpdate)
+          .expect(404)
+          .end(async (err, res) => {
+            const { message } = res.body;
+            if (err) return done(err);
+            expect(message).to.equal(`User not found`);
+            done();
+          });
+      });
+
+      it('should return 422 if provided data is invalid', (done) => {
+        request
+          .put('/api/v1/users/198')
+          .send({ ...userUpdate, fname: 'ot' })
+          .expect(422)
+          .end(async (err, res) => {
+            const { message, body } = res.body;
+            if (err) return done(err);
+            expect(message).to.equal(`Request validation failed`);
+            expect(body[0].msg).to.equal(`First nane must be 3-25 chars long`);
+            done();
+          });
+      });
     });
   });
 });

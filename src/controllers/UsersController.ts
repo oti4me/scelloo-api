@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../repositories/UseRepository';
-import { created } from '../helpers/response';
+import { created, ok } from '../helpers/response';
 
 export class UsersController {
   /**
@@ -39,5 +39,29 @@ export class UsersController {
     if (error) return next(error);
 
     return created(res, user);
+  };
+
+  /**
+   * Edit use
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {Function} next
+   *
+   * @memberOf UsersController
+   */
+  public edit = async (
+    req: Request,
+    res: Response,
+    next: (error: any) => {}
+  ) => {
+    const [user, error] = await this.userRepo.update(
+      parseInt(req.params.id),
+      req.body
+    );
+
+    if (error) return next(error);
+
+    return ok(res, { message: 'Updated!!', user });
   };
 }
