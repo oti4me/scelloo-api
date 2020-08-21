@@ -24,9 +24,11 @@ app.use(errorHandler);
 sync()
   .then(() => {
     console.log('Connected to database');
-    app.listen(port, () => {
-      console.log(`Server started and listening on port ${port}`);
-    });
+    if (!module.parent) {
+      app.listen(port, () => {
+        console.log(`Server started and listening on port ${port}`);
+      });
+    }
   })
   .catch((error) => {
     console.log(`Error connecting to the database: ${error}`);
